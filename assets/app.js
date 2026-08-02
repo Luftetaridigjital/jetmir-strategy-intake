@@ -214,6 +214,7 @@ form.addEventListener('submit', async (event) => {
     await submitResponse(submission);
     prepareHandoff(submission);
     clearDraft();
+    status.textContent = '';
     form.hidden = true;
     document.querySelector('.progress-wrap').hidden = true;
     successPanel.classList.add('active');
