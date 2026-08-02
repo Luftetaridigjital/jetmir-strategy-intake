@@ -10,7 +10,7 @@ async function read(name) {
 
 test('intake page exposes six accessible steps and privacy-first handoff', async () => {
   const html = await read('index.html');
-  assert.match(html, /<html lang="sq">/);
+  assert.match(html, /<html lang="sq"[^>]*>/);
   assert.equal((html.match(/data-step="\d"/g) || []).length, 6);
   assert.match(html, /aria-live="polite"/);
   assert.match(html, /Mos shkruaj emra, diagnoza/);
@@ -37,9 +37,25 @@ test('process page covers the client journey through handover and closure', asyn
   assert.match(html, /kriteri i përfundimit/i);
 });
 
-test('security headers and no-index policy are declared for GitHub Pages', async () => {
+test('browser security policy and no-index policy are declared for GitHub Pages', async () => {
   const html = await read('index.html');
   assert.match(html, /name="robots" content="noindex,nofollow,noarchive"/);
   assert.match(html, /Content-Security-Policy/);
   assert.match(html, /Referrer-Policy/);
+});
+
+test('pages fail closed when embedded in a frame', async () => {
+  const [intake, process, guard, styles] = await Promise.all([
+    read('index.html'),
+    read('process.html'),
+    read('assets/frame-guard.js'),
+    read('assets/styles.css'),
+  ]);
+  assert.match(intake, /<html[^>]+frame-check-pending/);
+  assert.match(process, /<html[^>]+frame-check-pending/);
+  assert.match(intake, /<script src="assets\/frame-guard\.js"><\/script>/);
+  assert.match(guard, /window\.self === window\.top/);
+  assert.match(guard, /is-framed/);
+  assert.match(styles, /frame-check-pending body/);
+  assert.match(styles, /is-framed body/);
 });

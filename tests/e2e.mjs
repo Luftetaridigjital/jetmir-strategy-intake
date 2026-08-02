@@ -3,12 +3,24 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { once } from 'node:events';
 
 const chrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const profileDir = mkdtempSync(join(tmpdir(), 'jetmir-intake-e2e-'));
 const server = spawn('python3', ['-m', 'http.server', '4173', '--bind', '127.0.0.1'], { cwd: new URL('..', import.meta.url).pathname, stdio: 'ignore' });
 const browser = spawn(chrome, ['--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--remote-debugging-port=9342', `--user-data-dir=${profileDir}`, 'http://127.0.0.1:4173/index.html'], { stdio: 'ignore' });
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+async function stopProcess(child) {
+  if (child.exitCode !== null) return;
+  let exited = once(child, 'exit');
+  child.kill('SIGTERM');
+  await Promise.race([exited, sleep(2000)]);
+  if (child.exitCode === null) {
+    exited = once(child, 'exit');
+    child.kill('SIGKILL');
+    await Promise.race([exited, sleep(2000)]);
+  }
+}
 let ws;
 try {
   let targets = [];
@@ -125,10 +137,19 @@ try {
     handover:document.body.textContent.includes('Handover & Project Closure')
   })`);
   assert.deepEqual(processPage, { title: 'Procesi Strategjik — Jetmir Sefa', phases: 8, width: 390, scrollWidth: 390, handover: true });
+
+  await evaluate(`location.href='http://127.0.0.1:4173/tests/frame-wrapper.html'`);
+  await sleep(500);
+  const frameGuard = await evaluate(`(() => {
+    const frame = document.querySelector('iframe');
+    const body = frame.contentDocument?.body;
+    return { framed: Boolean(body), display: body ? getComputedStyle(body).display : null };
+  })()`);
+  assert.deepEqual(frameGuard, { framed: true, display: 'none' });
   console.log(JSON.stringify({ initial, invalid, clinical, completed, processPage, exceptions }, null, 2));
 } finally {
   ws?.close();
-  browser.kill('SIGTERM');
-  server.kill('SIGTERM');
+  await stopProcess(browser);
+  await stopProcess(server);
   rmSync(profileDir, { recursive: true, force: true });
 }

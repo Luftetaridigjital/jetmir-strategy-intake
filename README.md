@@ -10,6 +10,7 @@ This pre-contract intake is privacy-first:
 - closing the tab ends the storage session, while an active tab also has an enforced expiry timer;
 - browser storage is cleared automatically when response files are prepared;
 - no answer is transmitted to a server automatically;
+- pages fail closed inside an iframe to prevent clickjacking on hosts without response-header controls;
 - the respondent explicitly shares `.txt` and `.json` files through the device share sheet;
 - clinical or identifying client data is prohibited and a warning detects likely entries;
 - downloaded or shared copies remain under the respondent's control and must be deleted separately;
