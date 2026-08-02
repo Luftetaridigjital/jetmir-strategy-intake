@@ -42,7 +42,8 @@ test('browser security policy and no-index policy are declared for GitHub Pages'
   assert.match(html, /name="robots" content="noindex,nofollow,noarchive"/);
   assert.match(html, /Content-Security-Policy/);
   assert.match(html, /connect-src 'self' https:\/\/formsubmit\.co/);
-  assert.match(html, /Referrer-Policy/);
+  assert.match(html, /name="referrer" content="strict-origin-when-cross-origin"/);
+  assert.match(html, /Referrer-Policy" content="strict-origin-when-cross-origin"/);
 });
 
 test('intake explains the real submission and backup behavior', async () => {
