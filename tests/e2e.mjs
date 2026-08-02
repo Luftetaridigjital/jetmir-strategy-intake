@@ -94,7 +94,7 @@ try {
   })()`);
   assert.equal(clinical, true);
 
-  const completed = await evaluate(`(() => {
+  const completed = await evaluate(`(async () => {
     const values={
       origin:'E nisa për të ndihmuar njerëzit me një proces autentik.',
       calling_moment:'Një moment profesional që ma qartësoi drejtimin.',
@@ -113,18 +113,53 @@ try {
     }
     document.querySelector('#consent_accuracy').click();
     for(let i=0;i<5;i++) document.querySelector('#nextButton').click();
+
+    window.fetch = async (_url, options) => {
+      window.__failedSubmissionId = JSON.parse(options.body).submission_id;
+      throw new Error('offline');
+    };
     document.querySelector('#submitButton').click();
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const failedAttempt = {
+      formStillVisible:!document.querySelector('#intakeForm').hidden,
+      successHidden:!document.querySelector('#successPanel').classList.contains('active'),
+      draftPreserved:sessionStorage.getItem('jetmir-strategy-intake-v1')?.length>20,
+      retryMessage:/mund të provosh përsëri/.test(document.querySelector('#formStatus').textContent)
+    };
+
+    window.fetch = async (url, options) => {
+      window.__submissionReceipt = { url, payload: JSON.parse(options.body) };
+      return { ok: true, json: async () => ({ success: 'true', message: 'Email sent' }) };
+    };
+    document.querySelector('#submitButton').click();
+    await new Promise(resolve => setTimeout(resolve, 500));
     return {
+      failedAttempt,
       activeSuccess:document.querySelector('#successPanel').classList.contains('active'),
       formHidden:document.querySelector('#intakeForm').hidden,
       textHref:document.querySelector('#downloadText').href.startsWith('blob:'),
       jsonHref:document.querySelector('#downloadJson').href.startsWith('blob:'),
       storage:sessionStorage.getItem('jetmir-strategy-intake-v1')?.length>20,
+      networkSubmitted:window.__submissionReceipt?.url==='https://formsubmit.co/ajax/mail@arlindberisha.info',
+      submissionId:window.__submissionReceipt?.payload?.submission_id?.startsWith('JS-'),
+      retryUsedSameId:window.__submissionReceipt?.payload?.submission_id===window.__failedSubmissionId,
       scrollWidth:document.documentElement.scrollWidth,
       width:innerWidth
     };
   })()`);
-  assert.deepEqual(completed, { activeSuccess: true, formHidden: true, textHref: true, jsonHref: true, storage: false, scrollWidth: 390, width: 390 });
+  assert.deepEqual(completed, {
+    failedAttempt: { formStillVisible: true, successHidden: true, draftPreserved: true, retryMessage: true },
+    activeSuccess: true,
+    formHidden: true,
+    textHref: true,
+    jsonHref: true,
+    storage: false,
+    networkSubmitted: true,
+    submissionId: true,
+    retryUsedSameId: true,
+    scrollWidth: 390,
+    width: 390
+  });
   assert.deepEqual(exceptions, []);
 
   await evaluate(`location.href='http://127.0.0.1:4173/process.html'`);

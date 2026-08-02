@@ -6,6 +6,6 @@
   "scripts": {
     "test": "node --test",
     "test:e2e": "node tests/e2e.mjs",
-    "check": "node --check assets/app.js && node --check assets/intake.js"
+    "check": "node --check assets/app.js && node --check assets/intake.js && node --check assets/submission.js"
   }
 }

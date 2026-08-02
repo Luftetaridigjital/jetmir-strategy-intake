@@ -9,6 +9,7 @@ import {
   readDraftEnvelope,
   getDraftExpiryDelay,
 } from './intake.js';
+import { submitResponse } from './submission.js';
 
 const STORAGE_KEY = 'jetmir-strategy-intake-v1';
 const form = document.querySelector('#intakeForm');
@@ -30,6 +31,7 @@ let currentStep = 0;
 let preparedFiles = [];
 let objectUrls = [];
 let expiryTimer;
+let pendingSubmission;
 
 function clearDraft() {
   sessionStorage.removeItem(STORAGE_KEY);
@@ -179,11 +181,12 @@ backButton.addEventListener('click', () => {
 });
 
 form.addEventListener('input', () => {
+  pendingSubmission = undefined;
   persistDraft();
   updateClinicalWarning();
 });
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const data = collectData();
   const missing = validateStep(REQUIRED_FIELDS, data);
@@ -197,19 +200,29 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
+  const originalButtonText = submitButton.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = 'Duke dërguar në mënyrë të sigurt…';
+  status.textContent = 'Po dërgohen përgjigjet. Mos e mbyll këtë faqe.';
+
   try {
-    const submission = normalizeSubmission(data, {
+    const submission = pendingSubmission || normalizeSubmission(data, {
       submissionId: createSubmissionId(),
       submittedAt: new Date().toISOString(),
     });
+    pendingSubmission = submission;
+    await submitResponse(submission);
     prepareHandoff(submission);
     clearDraft();
     form.hidden = true;
     document.querySelector('.progress-wrap').hidden = true;
     successPanel.classList.add('active');
     successPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } catch {
-    status.textContent = 'Përgjigjet nuk mund të përgatiten. Rifresko faqen dhe provo përsëri.';
+  } catch (error) {
+    status.textContent = `${error?.message || 'Dërgimi dështoi.'} Mos e rifresko faqen; përgjigjet janë ende këtu dhe mund të provosh përsëri.`;
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalButtonText;
   }
 });
 

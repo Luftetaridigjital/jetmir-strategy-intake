@@ -14,7 +14,7 @@ test('intake page exposes six accessible steps and privacy-first handoff', async
   assert.equal((html.match(/data-step="\d"/g) || []).length, 6);
   assert.match(html, /aria-live="polite"/);
   assert.match(html, /Mos shkruaj emra, diagnoza/);
-  assert.match(html, /Dërgo përgjigjet në mënyrë private/);
+  assert.match(html, /Dërgo përgjigjet në mënyrë të sigurt/);
   assert.match(html, /assets\/app\.js/);
 });
 
@@ -41,7 +41,16 @@ test('browser security policy and no-index policy are declared for GitHub Pages'
   const html = await read('index.html');
   assert.match(html, /name="robots" content="noindex,nofollow,noarchive"/);
   assert.match(html, /Content-Security-Policy/);
+  assert.match(html, /connect-src 'self' https:\/\/formsubmit\.co/);
   assert.match(html, /Referrer-Policy/);
+});
+
+test('intake explains the real submission and backup behavior', async () => {
+  const html = await read('index.html');
+  assert.match(html, /mail@arlindberisha\.info/);
+  assert.match(html, /FormSubmit/);
+  assert.match(html, /kopje rezervë/i);
+  assert.doesNotMatch(html, /Asnjë përgjigje nuk largohet automatikisht nga pajisja/);
 });
 
 test('pages fail closed when embedded in a frame', async () => {

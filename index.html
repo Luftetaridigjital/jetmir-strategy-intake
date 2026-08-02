@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self'; base-uri 'self'; object-src 'none'">
   <meta http-equiv="Referrer-Policy" content="no-referrer">
   <meta name="theme-color" content="#12150f">
   <title>Intake Strategjik — Jetmir Sefa</title>
@@ -34,13 +34,13 @@
     <section class="trust-strip" aria-label="Parimet e procesit">
       <div class="trust-item"><b>Diagnozë para zgjidhjes</b>Nuk propozojmë pa kuptuar.</div>
       <div class="trust-item"><b>Autenticitet para komercializimit</b>Metoda del nga puna jote reale.</div>
-      <div class="trust-item"><b>Privatësi by design</b>Asnjë përgjigje nuk largohet automatikisht nga pajisja.</div>
+      <div class="trust-item"><b>Dërgim i kontrolluar</b>Përgjigjet dërgohen vetëm kur ti shtyp butonin final.</div>
     </section>
 
     <section class="content">
       <div class="intro-grid">
-        <div><div class="eyebrow">Para se të fillosh</div><h2>Gjashtë hapa. Një strategji e ndërtuar mbi të vërtetën.</h2><p>Rezervo rreth 20–30 minuta. Drafti ruhet vetëm në sesionin e këtij tab-i, maksimumi 24 orë, dhe pastrohet sapo të përgatiten dokumentet. Në fund krijohet një dokument që e dërgon privatisht te Arlindi ose Zoom Growth.</p></div>
-        <aside class="privacy"><strong>Privatësi dhe kufij</strong><p>Mos shkruaj emra, diagnoza, histori, numra telefoni, adresa ose detaje që mund të identifikojnë klientët. Kërkojmë vetëm informacion strategjik dhe biznesor.</p></aside>
+        <div><div class="eyebrow">Para se të fillosh</div><h2>Gjashtë hapa. Një strategji e ndërtuar mbi të vërtetën.</h2><p>Rezervo rreth 20–30 minuta. Drafti ruhet vetëm në sesionin e këtij tab-i, maksimumi 24 orë. Kur shtyp butonin final, përgjigjet dërgohen te <strong>mail@arlindberisha.info</strong>; më pas drafti pastrohet dhe krijohet edhe një kopje rezervë për shkarkim.</p></div>
+        <aside class="privacy"><strong>Privatësi dhe kufij</strong><p>Mos shkruaj emra, diagnoza, histori, numra telefoni, adresa ose detaje që mund të identifikojnë klientët. Kërkojmë vetëm informacion strategjik dhe biznesor. Dërgimi teknik përpunohet nga FormSubmit për dorëzim me email.</p></aside>
       </div>
 
       <div class="progress-wrap" aria-label="Progresi i pyetësorit">
@@ -130,17 +130,17 @@
         <div class="actions">
           <button class="btn secondary" type="button" id="backButton" hidden>Kthehu</button>
           <button class="btn" type="button" id="nextButton">Vazhdo</button>
-          <button class="btn" type="submit" id="submitButton" hidden>Përgatit përgjigjet private</button>
+          <button class="btn" type="submit" id="submitButton" hidden>Dërgo përgjigjet në mënyrë të sigurt</button>
         </div>
         <div class="status" id="formStatus" aria-live="polite"></div>
       </form>
 
       <section class="success" id="successPanel" aria-live="polite">
         <div class="success-badge" aria-hidden="true">✓</div>
-        <h3>Përgjigjet janë gati.</h3>
-        <p>Asnjë e dhënë nuk është dërguar automatikisht. Zgjidh “Dërgo privatisht” dhe dërgoja personit që ta ka dërguar këtë pyetësor. Nëse telefoni nuk e mbështet, shkarko dokumentet.</p>
+        <h3>Përgjigjet u pranuan.</h3>
+        <p>Dërgimi u konfirmua dhe një kopje është nisur te mail@arlindberisha.info. Mund ta shkarkosh edhe kopjen rezervë për arkivin tënd.</p>
         <div class="success-actions">
-          <button class="btn" id="shareButton" type="button">Dërgo përgjigjet në mënyrë private</button>
+          <button class="btn" id="shareButton" type="button">Ndaj edhe kopjen rezervë</button>
           <a class="btn secondary" id="downloadText" download>Shkarko dokumentin</a>
           <a class="btn secondary" id="downloadJson" download>Shkarko kopjen JSON</a>
         </div>
@@ -154,7 +154,7 @@
     </section>
   </main>
 
-  <footer class="footer">Ky pyetësor mbledh informacion strategjik dhe biznesor, jo informacion klinik. Drafti ruhet në session storage të këtij tab-i, maksimumi 24 orë, dhe fshihet sapo përgatiten dokumentet. Mbyllja e tab-it e përfundon sesionin. Përgjigjet ndahen vetëm me veprim të përdoruesit. Skedarët e shkarkuar ose të shpërndarë duhet të menaxhohen dhe fshihen veçmas. Arlind Berisha dhe Zoom Growth nuk japin këshillë mjekësore, ligjore ose financiare përmes këtij formulari.</footer>
+  <footer class="footer">Ky pyetësor mbledh informacion strategjik dhe biznesor, jo informacion klinik. Drafti ruhet në session storage të këtij tab-i, maksimumi 24 orë. Përgjigjet dërgohen vetëm pasi përdoruesi shtyp butonin final dhe përpunohen nga FormSubmit për dorëzim te mail@arlindberisha.info. Pas konfirmimit drafti fshihet. Skedarët e shkarkuar ose të shpërndarë duhet të menaxhohen dhe fshihen veçmas. Arlind Berisha dhe Zoom Growth nuk japin këshillë mjekësore, ligjore ose financiare përmes këtij formulari.</footer>
 </div>
 <script type="module" src="assets/app.js"></script>
 </body>
