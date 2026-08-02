@@ -1,6 +1,8 @@
 export const FORM_ENDPOINT = 'https://formsubmit.co/ajax/mail@arlindberisha.info';
 
-export async function submitResponse(submission, fetchImpl = globalThis.fetch) {
+export async function submitResponse(submission, fetchImpl = globalThis.fetch, timeoutMs = 25000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   let response;
   try {
     response = await fetchImpl(FORM_ENDPOINT, {
@@ -9,6 +11,7 @@ export async function submitResponse(submission, fetchImpl = globalThis.fetch) {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
+      signal: controller.signal,
       body: JSON.stringify({
         ...submission,
         _subject: 'Jetmir Sefa — Përgjigje të reja strategjike',
@@ -17,7 +20,9 @@ export async function submitResponse(submission, fetchImpl = globalThis.fetch) {
       }),
     });
   } catch {
-    throw new Error('Lidhja dështoi. Përgjigjet nuk u dërguan.');
+    throw new Error('Nuk morëm konfirmim nga serveri. Përgjigjet mbeten në formular dhe mund të provosh përsëri me të njëjtin ID.');
+  } finally {
+    clearTimeout(timeout);
   }
 
   let data = {};

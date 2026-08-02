@@ -22,6 +22,15 @@ test('submitResponse fails closed on provider rejection or network failure', asy
   );
   await assert.rejects(
     () => submitResponse({}, async () => { throw new Error('offline'); }),
-    /lidhja dështoi/i,
+    /konfirmim/i,
+  );
+});
+
+test('submitResponse times out fail-closed instead of hanging forever', async () => {
+  await assert.rejects(
+    () => submitResponse({}, async (_url, options) => new Promise((_resolve, reject) => {
+      options.signal.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
+    }), 5),
+    /konfirmim/i,
   );
 });
