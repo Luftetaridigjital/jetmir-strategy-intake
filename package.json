@@ -1,0 +1,11 @@
+{
+  "name": "jetmir-strategy-intake",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "test:e2e": "node tests/e2e.mjs",
+    "check": "node --check assets/app.js && node --check assets/intake.js"
+  }
+}

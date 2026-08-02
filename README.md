@@ -1,0 +1,37 @@
+# Jetmir Sefa — Strategic Intake
+
+Production intake and end-to-end process overview prepared by **Arlind Berisha × Zoom Growth**.
+
+## Product decision
+
+This pre-contract intake is privacy-first:
+
+- drafts autosave in the current tab's session storage for up to 24 hours;
+- closing the tab ends the storage session, while an active tab also has an enforced expiry timer;
+- browser storage is cleared automatically when response files are prepared;
+- no answer is transmitted to a server automatically;
+- the respondent explicitly shares `.txt` and `.json` files through the device share sheet;
+- clinical or identifying client data is prohibited and a warning detects likely entries;
+- downloaded or shared copies remain under the respondent's control and must be deleted separately;
+- centralized CRM ingestion starts only after agreement and a data-governance gate.
+
+## Local verification
+
+```bash
+npm test
+npm run check
+npm run test:e2e
+```
+
+The E2E test requires macOS Google Chrome at the standard application path.
+
+## Deployment
+
+GitHub Pages deploys only `index.html`, `process.html`, and `assets/` after unit/static verification passes.
+
+## Ownership
+
+- Arlind Berisha: Business Coach & Strategic Architect
+- Ideal: operational project owner
+- Zoom Growth: implementation
+- Jetmir Sefa: method, voice, credentials, delivery, approvals
