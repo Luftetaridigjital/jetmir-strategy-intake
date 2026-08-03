@@ -37,7 +37,7 @@ jobs:
       - name: Prepare static artifact
         run: |
           mkdir -p _site/assets
-          cp index.html process.html _site/
+          cp index.html _site/
           cp assets/*.css assets/*.js _site/assets/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3

@@ -8,18 +8,25 @@ import {
   createDraftEnvelope,
   readDraftEnvelope,
   getDraftExpiryDelay,
+  calculateDiagnosticCoverage,
 } from './intake.js';
 import { submitResponse } from './submission.js';
 
-const STORAGE_KEY = 'jetmir-strategy-intake-v1';
+const STORAGE_KEY = 'jetmir-strategic-diagnostic-v2';
 const form = document.querySelector('#intakeForm');
 const steps = [...document.querySelectorAll('.step')];
 const dots = [...document.querySelectorAll('.step-dot')];
+const mapItems = [...document.querySelectorAll('.map-item')];
 const nextButton = document.querySelector('#nextButton');
 const backButton = document.querySelector('#backButton');
 const submitButton = document.querySelector('#submitButton');
 const progressBar = document.querySelector('#progressBar');
+const progressOrbit = document.querySelector('#progressOrbit');
+const progressPercent = document.querySelector('#progressPercent');
 const stepLabel = document.querySelector('#stepLabel');
+const stageMessage = document.querySelector('#stageMessage');
+const coverageLabel = document.querySelector('#coverageLabel');
+const progressWrap = document.querySelector('.progress-wrap');
 const status = document.querySelector('#formStatus');
 const clinicalWarning = document.querySelector('#clinicalWarning');
 const successPanel = document.querySelector('#successPanel');
@@ -67,6 +74,12 @@ function persistDraft() {
   }
 }
 
+function updateCoverage(data = collectData()) {
+  const coverage = calculateDiagnosticCoverage(data);
+  coverageLabel.textContent = `${coverage.percent}% e hartës`;
+  return coverage;
+}
+
 function restoreDraft() {
   try {
     const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -94,20 +107,34 @@ function updateClinicalWarning() {
 }
 
 function renderStep(index, shouldScroll = true) {
+  const previousStep = currentStep;
   currentStep = Math.max(0, Math.min(index, steps.length - 1));
   steps.forEach((step, position) => step.classList.toggle('active', position === currentStep));
   dots.forEach((dot, position) => {
     dot.classList.toggle('active', position === currentStep);
     dot.classList.toggle('done', position < currentStep);
   });
+  mapItems.forEach((item, position) => {
+    item.classList.toggle('active', position === currentStep);
+    item.classList.toggle('done', position < currentStep);
+    item.setAttribute('aria-current', position === currentStep ? 'step' : 'false');
+  });
   const percent = calculateProgress(currentStep + 1, steps.length);
   progressBar.style.width = `${percent}%`;
-  stepLabel.textContent = `Hapi ${currentStep + 1} nga ${steps.length}`;
+  progressOrbit.style.setProperty('--progress', `${percent}%`);
+  progressPercent.textContent = `${percent}%`;
+  stepLabel.textContent = `Shtylla ${currentStep + 1} nga ${steps.length}`;
+  const currentName = steps[currentStep].dataset.stageName;
+  const previousName = steps[previousStep]?.dataset.stageName;
+  stageMessage.textContent = currentStep > previousStep
+    ? `${previousName} u qartësua. Tani: ${currentName}.`
+    : `Po qartësojmë ${currentName.toLocaleLowerCase('sq')}.`;
   backButton.hidden = currentStep === 0;
   nextButton.hidden = currentStep === steps.length - 1;
+  if (currentStep < steps.length - 1) nextButton.textContent = `Vazhdo te ${steps[currentStep + 1].dataset.stageName}`;
   submitButton.hidden = currentStep !== steps.length - 1;
   status.textContent = '';
-  if (shouldScroll) document.querySelector('.progress-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (shouldScroll) progressWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function requiredNamesForStep(step) {
@@ -184,6 +211,7 @@ form.addEventListener('input', () => {
   pendingSubmission = undefined;
   persistDraft();
   updateClinicalWarning();
+  updateCoverage();
 });
 
 form.addEventListener('submit', async (event) => {
@@ -216,7 +244,7 @@ form.addEventListener('submit', async (event) => {
     clearDraft();
     status.textContent = '';
     form.hidden = true;
-    document.querySelector('.progress-wrap').hidden = true;
+    progressWrap.hidden = true;
     successPanel.classList.add('active');
     successPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (error) {
@@ -231,8 +259,8 @@ shareButton.addEventListener('click', async () => {
   if (!preparedFiles.length) return;
   try {
     await navigator.share({
-      title: 'Përgjigjet strategjike — Jetmir Sefa',
-      text: 'Përgjigjet e intake-it strategjik për Arlind Berisha × Zoom Growth.',
+      title: 'Strategic Business Diagnostic — Jetmir Sefa',
+      text: 'Dosja strategjike për analizë nga Arlind Berisha.',
       files: preparedFiles,
     });
   } catch (error) {
@@ -253,4 +281,5 @@ clearDataButton.addEventListener('click', () => {
 
 restoreDraft();
 updateClinicalWarning();
+updateCoverage();
 renderStep(0, false);

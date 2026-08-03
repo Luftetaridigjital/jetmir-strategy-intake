@@ -1,65 +1,91 @@
+export const DIAGNOSTIC_CHAPTERS = [
+  {
+    id: 'foundation',
+    title: 'Themeli',
+    fields: ['business_purpose', 'brand_meaning', 'public_position', 'non_negotiables', 'credentials'],
+  },
+  {
+    id: 'method',
+    title: 'Metoda',
+    fields: ['ideal_client', 'client_start', 'desired_outcome', 'method_process', 'differentiator', 'fit_boundaries', 'markets_languages'],
+  },
+  {
+    id: 'model',
+    title: 'Modeli',
+    fields: ['primary_offer', 'offer_portfolio', 'monthly_revenue_range', 'offer_economics_visibility', 'primary_offer_margin_range', 'weekly_capacity', 'current_weekly_load', 'current_delivery_hours', 'backlog_status'],
+  },
+  {
+    id: 'engine',
+    title: 'Motori',
+    fields: ['primary_acquisition_channel', 'customer_journey', 'monthly_leads_range', 'lead_to_client_conversion_range', 'sales_process', 'proof_readiness'],
+  },
+  {
+    id: 'mandate',
+    title: 'Mandati',
+    fields: ['vision_12m', 'priority_90d', 'primary_bottleneck', 'founder_dependency', 'delegation_opportunity', 'team_and_systems', 'success_definition', 'implementation_readiness'],
+  },
+];
+
 export const REQUIRED_FIELDS = [
-  'origin',
-  'public_identity',
-  'identity_boundaries',
-  'method_process',
-  'fit_boundaries',
-  'ideal_client',
-  'active_offers',
-  'vision_12m',
-  'priority_90d',
+  ...DIAGNOSTIC_CHAPTERS.flatMap(({ fields }) => fields),
   'consent_accuracy',
 ];
 
 export const FIELD_ORDER = [
-  'origin', 'calling_moment', 'public_identity', 'identity_boundaries', 'terapia_meaning',
-  'credentials', 'method_process', 'unique_elements', 'fit_boundaries', 'referral_rules',
-  'supported_results', 'ideal_client', 'client_start', 'desired_change', 'markets_languages',
-  'client_objections', 'active_offers', 'strongest_transformation', 'best_economics',
-  'energy_drain', 'personal_only', 'delegatable', 'weekly_capacity', 'stop_merge_rename',
-  'proof_examples', 'testimonial_consent', 'voice_topics', 'public_boundaries',
-  'vision_12m', 'content_hours', 'delivery_hours', 'team_roles', 'current_tools',
-  'priority_90d', 'ai_boundaries', 'data_pack_ready', 'additional_context', 'consent_accuracy',
+  'business_purpose', 'brand_meaning', 'public_position', 'non_negotiables', 'credentials',
+  'ideal_client', 'client_start', 'desired_outcome', 'method_process', 'differentiator',
+  'fit_boundaries', 'markets_languages', 'supported_results',
+  'primary_offer', 'offer_portfolio', 'monthly_revenue_range', 'offer_economics_visibility',
+  'primary_offer_margin_range', 'weekly_capacity', 'current_weekly_load',
+  'current_delivery_hours', 'backlog_status', 'offer_focus',
+  'primary_acquisition_channel', 'customer_journey', 'monthly_leads_range',
+  'lead_to_client_conversion_range', 'sales_process', 'proof_readiness', 'client_objections',
+  'vision_12m', 'priority_90d', 'primary_bottleneck', 'founder_dependency',
+  'delegation_opportunity', 'team_and_systems', 'success_definition', 'implementation_readiness', 'public_boundaries',
+  'additional_context', 'consent_accuracy',
 ];
 
 export const FIELD_LABELS = {
-  origin: 'Pse e nise këtë punë?',
-  calling_moment: 'Cili moment të bindi se kjo ishte thirrja jote?',
-  public_identity: 'Si dëshiron të përshkruhesh publikisht?',
-  identity_boundaries: 'Si nuk dëshiron të përshkruhesh kurrë?',
-  terapia_meaning: 'Çfarë do të thotë “Terapia e Jetës” për ty?',
-  credentials: 'Titujt, certifikimet dhe trajnimet që mund të komunikohen',
-  method_process: 'Procesi yt nga kontakti i parë deri te integrimi',
-  unique_elements: 'Elementet e qasjes që janë vërtet të tuat',
-  fit_boundaries: 'Për cilat raste je right fit dhe për cilat jo?',
-  referral_rules: 'Kur e referon dikë te profesionistë të tjerë?',
-  supported_results: 'Rezultatet që mund t’i mbështesësh me evidencë',
-  ideal_client: 'Kush përfiton më shumë nga puna jote?',
-  client_start: 'Me çfarë situate vijnë zakonisht?',
-  desired_change: 'Çfarë duan të ndiejnë ose arrijnë?',
-  markets_languages: 'Shtetet dhe gjuhët ku shërben',
-  client_objections: 'Frika ose keqkuptimi para se të kërkojnë ndihmë',
-  active_offers: 'Ofertat aktive: çmimi, formati, kohëzgjatja dhe kapaciteti',
-  strongest_transformation: 'Oferta me transformimin më të fortë',
-  best_economics: 'Oferta më e qëndrueshme financiarisht',
-  energy_drain: 'Oferta që merr më shumë energji',
-  personal_only: 'Çfarë duhet ta bësh vetëm ti?',
-  delegatable: 'Çfarë mund t’ia delegosh ekipit?',
-  weekly_capacity: 'Kapaciteti pa ulur standardin',
-  stop_merge_rename: 'Çfarë dëshiron të ndalosh, bashkosh ose riemërtosh?',
-  proof_examples: 'Tri histori që përfaqësojnë punën tënde',
-  testimonial_consent: 'Lejet për testimoniale, foto dhe video',
-  voice_topics: 'Temat që dëshiron t’i thuash vetëm me zërin tënd',
-  public_boundaries: 'Temat ose detajet jashtë kufirit publik',
-  vision_12m: 'Si duket puna pas 12 muajsh?',
-  content_hours: 'Orët javore për content',
-  delivery_hours: 'Orët javore për delivery',
-  team_roles: 'Ekipi aktual dhe përgjegjësitë',
-  current_tools: 'Mjetet për leads, booking, pagesa, email dhe klientë',
-  priority_90d: 'Problemi numër një për 90 ditët e ardhshme',
-  ai_boundaries: 'Çfarë mund dhe nuk mund t’i besohet AI-së?',
-  data_pack_ready: 'Cilat të dhëna biznesore mund t’i ndani?',
-  additional_context: 'Kontekst tjetër që duhet ta dimë',
+  business_purpose: 'Pse ekziston kjo punë dhe çfarë dëshiron të ndryshojë?',
+  brand_meaning: 'Çfarë është “Terapia e Jetës” në thelb?',
+  public_position: 'Si duhet të kuptohet roli yt publik?',
+  non_negotiables: 'Çfarë nuk duhet të humbasë gjatë rritjes?',
+  credentials: 'Kualifikime, certifikime dhe trajnime që mund të komunikohen saktë',
+  ideal_client: 'Kush është personi që përfiton më shumë?',
+  client_start: 'Në çfarë gjendjeje ose situate hyn në proces?',
+  desired_outcome: 'Çfarë ndryshimi kërkon të arrijë?',
+  method_process: 'Si funksionon procesi yt real nga fillimi deri në fund?',
+  differentiator: 'Çfarë e bën qasjen tënde të dallueshme?',
+  fit_boundaries: 'Për kë është kjo punë dhe për kë nuk është?',
+  markets_languages: 'Tregjet dhe gjuhët ku shërben',
+  supported_results: 'Rezultatet që mund të mbështeten me evidencë',
+  primary_offer: 'Oferta kryesore: emri, formati, kohëzgjatja dhe çmimi',
+  offer_portfolio: 'Ekonomia e ofertave aktive: çmimi, shitjet, të ardhurat, koha dhe marzhi',
+  monthly_revenue_range: 'Intervali aktual i të ardhurave mujore',
+  offer_economics_visibility: 'Sa e qartë është ekonomia e ofertave?',
+  primary_offer_margin_range: 'Marzhi i përafërt i ofertës kryesore',
+  weekly_capacity: 'Kapaciteti javor pa ulur standardin',
+  current_weekly_load: 'Ngarkesa aktuale javore me klientë',
+  current_delivery_hours: 'Orët aktuale javore për realizimin e shërbimeve',
+  backlog_status: 'Gjendja e listës së pritjes ose kërkesës së papërmbushur',
+  offer_focus: 'Oferta që duhet të marrë fokus dhe ajo që duhet thjeshtuar',
+  primary_acquisition_channel: 'Kanali kryesor nga vijnë klientët',
+  customer_journey: 'Rruga aktuale nga kontakti i parë deri te pagesa dhe fillimi',
+  monthly_leads_range: 'Intervali i kërkesave të reja mujore',
+  lead_to_client_conversion_range: 'Sa kërkesa kthehen në klientë?',
+  sales_process: 'Si merret vendimi i blerjes dhe kush e mbyll?',
+  proof_readiness: 'Gjendja e provave dhe consent-it',
+  client_objections: 'Pengesat ose dyshimet kryesore para blerjes',
+  team_and_systems: 'Ekipi dhe sistemet që mbajnë operimin sot',
+  vision_12m: 'Si duhet të duket biznesi pas 12 muajve?',
+  priority_90d: 'Prioriteti numër një për 90 ditët e ardhshme',
+  primary_bottleneck: 'Bllokuesi kryesor i rritjes sot',
+  founder_dependency: 'Çfarë varet ende vetëm nga Jetmiri?',
+  delegation_opportunity: 'Çfarë duhet të kalojë te ekipi ose sistemi?',
+  success_definition: 'Si matet suksesi i këtij projekti?',
+  implementation_readiness: 'Gatishmëria për implementim',
+  public_boundaries: 'Temat dhe kufijtë që nuk duhet të kalohen publikisht',
+  additional_context: 'Kontekst tjetër që Arlindi duhet ta dijë',
   consent_accuracy: 'Konfirmimi i saktësisë dhe privatësisë',
 };
 
@@ -71,6 +97,16 @@ export function validateStep(fieldNames, data) {
     if (typeof value === 'boolean') return value !== true;
     return stripTags(value).length === 0;
   });
+}
+
+export function calculateDiagnosticCoverage(data) {
+  const fields = REQUIRED_FIELDS.filter((field) => field !== 'consent_accuracy');
+  const answered = fields.filter((field) => stripTags(data?.[field]).length > 0).length;
+  return {
+    answered,
+    total: fields.length,
+    percent: fields.length ? Math.round((answered / fields.length) * 100) : 0,
+  };
 }
 
 export function normalizeSubmission(formData, metadata) {
@@ -90,20 +126,31 @@ export function normalizeSubmission(formData, metadata) {
 
 export function createResponseText(submission) {
   const lines = [
-    'PËRGJIGJET STRATEGJIKE — JETMIR SEFA',
-    'Përgatitur për Arlind Berisha × Zoom Growth',
+    'STRATEGIC BUSINESS DIAGNOSTIC — JETMIR SEFA',
+    'Për analizë nga Arlind Berisha, Business Coach & Strategic Architect',
     '',
     `ID: ${stripTags(submission.submission_id)}`,
     `Dërguar më: ${stripTags(submission.submitted_at)}`,
     '',
   ];
-  for (const field of FIELD_ORDER) {
-    if (!(field in submission)) continue;
-    const value = typeof submission[field] === 'boolean'
-      ? (submission[field] ? 'Po' : 'Jo')
-      : stripTags(submission[field]);
-    if (!value) continue;
-    lines.push(FIELD_LABELS[field] || field, value, '');
+  for (const chapter of DIAGNOSTIC_CHAPTERS) {
+    lines.push(`## ${chapter.title.toLocaleUpperCase('sq')}`, '');
+    for (const field of FIELD_ORDER.filter((name) => chapter.fields.includes(name))) {
+      if (!(field in submission)) continue;
+      const value = stripTags(submission[field]);
+      if (!value) continue;
+      lines.push(FIELD_LABELS[field] || field, value, '');
+    }
+    const lastRequiredIndex = Math.max(...chapter.fields.map((field) => FIELD_ORDER.indexOf(field)));
+    const nextRequiredIndex = DIAGNOSTIC_CHAPTERS[DIAGNOSTIC_CHAPTERS.indexOf(chapter) + 1]
+      ? FIELD_ORDER.indexOf(DIAGNOSTIC_CHAPTERS[DIAGNOSTIC_CHAPTERS.indexOf(chapter) + 1].fields[0])
+      : FIELD_ORDER.length;
+    for (const field of FIELD_ORDER.slice(lastRequiredIndex + 1, nextRequiredIndex)) {
+      if (!(field in submission)) continue;
+      const value = typeof submission[field] === 'boolean' ? (submission[field] ? 'Po' : 'Jo') : stripTags(submission[field]);
+      if (!value) continue;
+      lines.push(FIELD_LABELS[field] || field, value, '');
+    }
   }
   lines.push('Shënim privatësie: Ky dokument nuk duhet të përmbajë emra, diagnoza ose detaje identifikuese të klientëve.');
   return lines.join('\n');
@@ -111,9 +158,16 @@ export function createResponseText(submission) {
 
 export function containsClinicalDataWarning(text) {
   const value = String(text ?? '').toLocaleLowerCase('sq');
-  const directIdentifiers = /(klient(?:i|ja)? (?:im|ime) quhet|pacient(?:i|ja)? (?:im|ime) quhet|num[ëe]r personal|adresa e (?:tij|saj)|telefon(?:i)? i (?:tij|saj)|email(?:i)? i (?:tij|saj))/i;
+  const email = /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/i;
+  const internationalPhone = /(?:\+|00)\d{1,3}[\s()./-]*(?:\d[\s()./-]*){6,}/;
+  const labelledPhone = /(?:telefon|tel\.?|kontakt|whatsapp).{0,35}(?:\d[\s()./-]*){7,}/i;
+  const directIdentifiers = /(?:klient(?:i|ja)?|pacient(?:i|ja)?).{0,45}(?:quhet|emri|telefoni|emaili|adresa)|(?:emri (?:i tij|i saj)|emri i klientit|emri i pacientit).{0,25}(?:është|eshte)|num[ëe]r personal|dat[ëe]lindj|banon n[ëe]|adresa e (?:tij|saj)|rruga e (?:tij|saj)/i;
   const caseDiagnosis = /(?:klient|pacient).{0,80}diagnoz|diagnoz.{0,80}(?:klient|pacient)/i;
-  return directIdentifiers.test(value) || caseDiagnosis.test(value);
+  return email.test(value)
+    || internationalPhone.test(value)
+    || labelledPhone.test(value)
+    || directIdentifiers.test(value)
+    || caseDiagnosis.test(value);
 }
 
 export function calculateProgress(currentStep, totalSteps) {
