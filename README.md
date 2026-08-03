@@ -1,6 +1,6 @@
-# Jetmir Sefa — Strategic Intake
+# Jetmir Sefa — Strategic Business Diagnostic
 
-Production intake and end-to-end process overview prepared by **Arlind Berisha × Zoom Growth**.
+Private five-pillar business diagnostic led by **Arlind Berisha, Business Coach & Strategic Architect**. The client surface stays concise while the answer model covers identity, method and market, offer economics, customer engine, operating dependency and strategic mandate.
 
 ## Product decision
 
@@ -17,6 +17,8 @@ This pre-contract intake is privacy-first:
 - downloaded or shared copies remain under the respondent's control and must be deleted separately;
 - no CRM/database ingestion is enabled; that remains behind a separate data-governance gate.
 
+The client-facing page does not expose the internal implementation playbook or agency task structure. Zoom Growth ownership remains documented internally.
+
 ## Local verification
 
 ```bash
@@ -29,7 +31,7 @@ The E2E test requires macOS Google Chrome at the standard application path.
 
 ## Deployment
 
-GitHub Pages deploys only `index.html`, `process.html`, and `assets/` after unit/static verification passes.
+GitHub Pages deploys only the private client diagnostic (`index.html`) and its `assets/` after verification passes. The internal process playbook remains in the repository and is not published to the client site.
 
 ## Ownership
 

@@ -70,24 +70,24 @@ try {
     activeStep: document.querySelector('.step.active')?.dataset.step,
     progress: document.querySelector('#progressBar').style.width
   })`);
-  assert.equal(initial.title, 'Intake Strategjik — Jetmir Sefa');
+  assert.equal(initial.title, 'Strategic Business Diagnostic — Jetmir Sefa');
   assert.equal(initial.width, 390);
   assert.equal(initial.scrollWidth, 390);
   assert.equal(initial.activeStep, '1');
-  assert.equal(initial.progress, '17%');
+  assert.equal(initial.progress, '20%');
 
   const invalid = await evaluate(`(() => {
     document.querySelector('#nextButton').click();
     return {
-      origin: document.querySelector('#origin').getAttribute('aria-invalid'),
+      businessPurpose: document.querySelector('#business_purpose').getAttribute('aria-invalid'),
       status: document.querySelector('#formStatus').textContent
     };
   })()`);
-  assert.equal(invalid.origin, 'true');
+  assert.equal(invalid.businessPurpose, 'true');
   assert.match(invalid.status, /Plotëso fushat/);
 
   const clinical = await evaluate(`(() => {
-    const field=document.querySelector('#calling_moment');
+    const field=document.querySelector('#business_purpose');
     field.value='Klienti im quhet Filan dhe ka diagnozë depresioni.';
     field.dispatchEvent(new Event('input',{bubbles:true}));
     return document.querySelector('#clinicalWarning').classList.contains('show');
@@ -96,23 +96,48 @@ try {
 
   const completed = await evaluate(`(async () => {
     const values={
-      origin:'E nisa për të ndihmuar njerëzit me një proces autentik.',
-      calling_moment:'Një moment profesional që ma qartësoi drejtimin.',
-      public_identity:'Terapist me qasje të integruar dhe kufij të qartë.',
-      identity_boundaries:'Nuk dëshiroj të prezantohem si psikolog ose psikiatër.',
-      method_process:'Kontakt, vlerësim i përshtatshmërisë, proces i strukturuar dhe integrim.',
-      fit_boundaries:'Përcaktohet pas vlerësimit dhe referohet kur kërkohet kujdes tjetër.',
+      business_purpose:'E nisa për të ndërtuar një proces autentik dhe të qëndrueshëm.',
+      brand_meaning:'Një ekosistem i kombinuar',
+      public_position:'Terapist me qasje të integruar dhe kufij të qartë.',
+      non_negotiables:'Autenticiteti, etika dhe standardi i punës.',
+      credentials:'Trajnime dhe certifikime të dokumentuara.',
       ideal_client:'Të rritur që kërkojnë qartësi dhe janë të gatshëm për proces.',
-      active_offers:'Seanca individuale, program grupor dhe retreat.',
+      client_start:'Vijnë pa qartësi dhe pa një rrugë të strukturuar.',
+      desired_outcome:'Qartësi, stabilitet dhe një proces i zbatueshëm.',
+      method_process:'Kontakt, vlerësim i përshtatshmërisë, proces i strukturuar dhe integrim.',
+      differentiator:'Kombinimi i përvojës, strukturës dhe qasjes personale.',
+      fit_boundaries:'Përcaktohet pas vlerësimit dhe referohet kur kërkohet kujdes tjetër.',
+      markets_languages:'Zvicër, Kosovë dhe diasporë në gjuhën shqipe.',
+      primary_offer:'Program individual, 8 javë, €1,000.',
+      offer_portfolio:'Program individual | €1,000 | 8 | 60% | 12 orë | 60–79%\\nProgram grupor | €300 | 12 | 25% | 8 orë | 40–59%',
+      monthly_revenue_range:'€10,000–€25,000',
+      offer_economics_visibility:'I njoh pjesërisht',
+      primary_offer_margin_range:'60–79%',
+      weekly_capacity:'11–20',
+      current_weekly_load:'6–10',
+      current_delivery_hours:'21–30 orë',
+      backlog_status:'Ka raste të rralla kur mbushet kapaciteti',
+      primary_acquisition_channel:'Instagram organik',
+      customer_journey:'Instagram, mesazh privat, telefonatë, pagesë dhe onboarding.',
+      monthly_leads_range:'31–75',
+      lead_to_client_conversion_range:'25–39%',
+      sales_process:'Jetmiri zhvillon telefonatën dhe mbyll marrëveshjen.',
+      proof_readiness:'Ka dëshmi, por jo sistem',
       vision_12m:'Një brand i qartë me ekip dhe procese të dokumentuara.',
-      priority_90d:'Qartësimi i pozicionimit dhe ofertave.'
+      priority_90d:'Qartësimi i pozicionimit dhe ofertave.',
+      primary_bottleneck:'Oferta',
+      founder_dependency:'Shitja dhe delivery varen nga Jetmiri.',
+      delegation_opportunity:'Follow-up, operimi dhe raportimi kalojnë te ekipi.',
+      team_and_systems:'Një asistent dhe mjete bazë për booking e pagesa.',
+      success_definition:'Një ofertë kryesore, customer journey i matshëm dhe më pak varësi.',
+      implementation_readiness:'Gati, por me faza dhe prioritete'
     };
     for(const [name,value] of Object.entries(values)){
       const field=document.querySelector('[name="'+name+'"]');
       field.value=value; field.dispatchEvent(new Event('input',{bubbles:true}));
     }
     document.querySelector('#consent_accuracy').click();
-    for(let i=0;i<5;i++) document.querySelector('#nextButton').click();
+    for(let i=0;i<4;i++) document.querySelector('#nextButton').click();
 
     window.fetch = async (_url, options) => {
       window.__failedSubmissionId = JSON.parse(options.body).submission_id;
@@ -123,7 +148,7 @@ try {
     const failedAttempt = {
       formStillVisible:!document.querySelector('#intakeForm').hidden,
       successHidden:!document.querySelector('#successPanel').classList.contains('active'),
-      draftPreserved:sessionStorage.getItem('jetmir-strategy-intake-v1')?.length>20,
+      draftPreserved:sessionStorage.getItem('jetmir-strategic-diagnostic-v2')?.length>20,
       retryMessage:/mund të provosh përsëri/.test(document.querySelector('#formStatus').textContent)
     };
 
@@ -139,7 +164,9 @@ try {
       formHidden:document.querySelector('#intakeForm').hidden,
       textHref:document.querySelector('#downloadText').href.startsWith('blob:'),
       jsonHref:document.querySelector('#downloadJson').href.startsWith('blob:'),
-      storage:sessionStorage.getItem('jetmir-strategy-intake-v1')?.length>20,
+      storage:sessionStorage.getItem('jetmir-strategic-diagnostic-v2')?.length>20,
+      coverage:document.querySelector('#coverageLabel').textContent,
+      completedMapItems:document.querySelectorAll('.map-item.done').length,
       networkSubmitted:window.__submissionReceipt?.url==='https://formsubmit.co/ajax/mail@arlindberisha.info',
       submissionId:window.__submissionReceipt?.payload?.submission_id?.startsWith('JS-'),
       retryUsedSameId:window.__submissionReceipt?.payload?.submission_id===window.__failedSubmissionId,
@@ -154,6 +181,8 @@ try {
     textHref: true,
     jsonHref: true,
     storage: false,
+    coverage: '100% e hartës',
+    completedMapItems: 4,
     networkSubmitted: true,
     submissionId: true,
     retryUsedSameId: true,
